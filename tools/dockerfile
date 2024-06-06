@@ -1,0 +1,13 @@
+FROM ubuntu:22.04
+
+#Install necessary packages
+RUN apt-get update \
+    && apt-get install -y wget bzip2 make unzip cppcheck sudo
+
+# Create a non root user named "ubuntu"
+# But put in root group since Github actions needs permissions
+# to create temp files.
+RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo \
+    -u 1001 ubuntu -p "$(openssl passwd -1 ubuntu)"
+USER ubuntu
+WORKDIR /home/ubuntu

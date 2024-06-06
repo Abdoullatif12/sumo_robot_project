@@ -29,7 +29,7 @@ CPPCHECK = cppcheck
 # Files
 TARGET = $(BIN_DIR)/sumobot
 
-SOURCES = main.c \
+SOURCES = src/main.c 
 		  
 
 # Create object files from source files

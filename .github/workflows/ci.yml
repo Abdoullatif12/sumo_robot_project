@@ -1,0 +1,15 @@
+name: Build and Static analysis
+
+on:
+    push:
+
+jobs:
+    build_and_static_analysis:
+        runs-on: ubuntu-latest
+        container:
+            image: abdoullatif12/xc8-toolchain
+        steps:
+           - name: Checkout the ripository
+             uses: actions/checkout@v3
+           - run: make
+           - run: make cppcheck
