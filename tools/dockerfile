@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 #Install necessary packages
 RUN apt-get update \
-    && apt-get install -y wget bzip2 make unzip cppcheck sudo
+    && apt-get install -y wget bzip2 make unzip cppcheck sudo git clang-format-12
 
 # Create a non root user named "ubuntu"
 # But put in root group since Github actions needs permissions

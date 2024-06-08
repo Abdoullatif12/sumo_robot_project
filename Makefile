@@ -25,6 +25,7 @@ BIN_DIR = $(BUILD_DIR)/bin
 CC = $(XC8_BIN_DIR)/xc8-cc
 AR = $(XC8_BIN_DIR)/xc8-ar
 CPPCHECK = cppcheck
+FORMAT = clang-format-12
 
 # Files
 TARGET = $(BIN_DIR)/sumobot
@@ -57,7 +58,7 @@ $(OBJ_DIR)/%.p1: %.c
 
 
 # Phonies
-.PHONY: all clean flash cppcheck
+.PHONY: all clean flash cppcheck format
 
 all:$(TARGET)
 
@@ -72,6 +73,9 @@ cppcheck:
 	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 --inline-suppr	\
 	-I $(INCLUDE_DIRS) $(SOURCES)	\
 	-i external/printf
+
+format:
+	@$(FORMAT) -i $(SOURCES)
 
 
 
