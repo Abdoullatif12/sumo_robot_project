@@ -14,7 +14,8 @@ TARGET_MCU = 16f877a
 INCLUDE_DIRS = $(XC8_PIC_INCLUDE_DIR)	\
 				./src 					\
 				./external/				\
-				./external/printf
+				./external/printf		\
+				./src/common/
 
 LIB_DIRS = $(XC8_PIC_LIB_DIR)
 BUILD_DIR = build
@@ -30,7 +31,15 @@ FORMAT = clang-format-12
 # Files
 TARGET = $(BIN_DIR)/sumobot
 
-SOURCES = src/main.c 
+SOURCE_FILES_WITH_HEADERS = \
+		src/drivers/adc.c	\
+		src/app/drive.c
+
+HEADERS = $(SOURCE_FILES_WITH_HEADERS:.c=.h) \
+
+
+SOURCES = src/main.c \
+			$(SOURCE_FILES_WITH_HEADERS)
 		  
 
 # Create object files from source files
@@ -47,7 +56,7 @@ CFLAGS = -mcpu=$(MCU) $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS)) -O0 -std=$(C_ST
 LDFLAGS = -mcpu=$(MCU) $(addprefix -L, $(LIB_DIRS))
 
 # Build
-$(TARGET): $(OBJECT)
+$(TARGET): $(OBJECT) 
 	@mkdir -p $(dir $@)
 	$(CC) $(LDFLAGS) $^ -o $@
 
@@ -75,7 +84,7 @@ cppcheck:
 	-i external/printf
 
 format:
-	@$(FORMAT) -i $(SOURCES)
+	@$(FORMAT) -i $(SOURCES) $(HEADERS)
 
 
 
