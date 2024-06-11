@@ -1,5 +1,6 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-int test;
+#define UNUSED(x) (void)(x)
+
 #endif
