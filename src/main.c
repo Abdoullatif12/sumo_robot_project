@@ -1,5 +1,5 @@
-#include "app/drive.h"
 #include "common/defines.h"
+#include "drivers/io.h"
 #include <stdio.h>
 
-int main() { test = 2; }
+int main() {}
