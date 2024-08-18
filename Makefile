@@ -4,7 +4,7 @@ XC8_ROOT_DIR =  /opt/microchip/xc8/v2.46
 XC8_BIN_DIR = $(XC8_ROOT_DIR)/bin
 XC8_PIC_INCLUDE_DIR = $(XC8_ROOT_DIR)/pic
 XC8_PIC_LIB_DIR = $(XC8_PIC_INCLUDE_DIR)/lib/$(C_STANDARD)
-XC8_PIC_PROC_INCLUDE_DIR = $(XC8_PIC_INCLUDE_DIR)/proc
+XC8_PIC_PROC_INCLUDE_DIR = $(XC8_PIC_INCLUDE_DIR)/include/proc
 PROJECT_DIR = $(shell pwd)
 
 MPLAB_IPE_DIR = /opt/microchip/mplabx/v6.20/mplab_platform/mplab_ipe
@@ -32,8 +32,8 @@ FORMAT = clang-format-12
 TARGET = $(BIN_DIR)/sumobot
 
 SOURCE_FILES_WITH_HEADERS = \
-		src/drivers/adc.c	\
-		src/app/drive.c
+		src/drivers/io.c	\
+		src/drivers/mcu_init.c
 
 HEADERS = $(SOURCE_FILES_WITH_HEADERS:.c=.h) \
 
@@ -76,7 +76,7 @@ clean:
 
 flash:
 	bash -c " cd $(MPLAB_IPE_DIR) && \
-	ipecmd.sh -T$(PROGRAMMER) -P$(TARGET_MCU) -M -F$(PROJECT_DIR)/$(TARGET).hex"
+	./ipecmd.sh -T$(PROGRAMMER) -P$(TARGET_MCU) -M -F$(PROJECT_DIR)/$(TARGET).hex"
 
 cppcheck:
 	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 --inline-suppr	\
@@ -84,7 +84,7 @@ cppcheck:
 	-i external/printf
 
 format:
-	@$(FORMAT) -i $(SOURCES) $(HEADERS)
+	$(FORMAT) -i $(SOURCES) $(HEADERS)
 
 
 
