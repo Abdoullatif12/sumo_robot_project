@@ -32,7 +32,8 @@ FORMAT = clang-format-12
 TARGET = $(BIN_DIR)/sumobot
 
 SOURCE_FILES_WITH_HEADERS = \
-		src/drivers/io.c
+		src/drivers/io.c	\
+		src/drivers/mcu_init.c
 
 HEADERS = $(SOURCE_FILES_WITH_HEADERS:.c=.h) \
 

@@ -1,4 +1,5 @@
 #include "common/defines.h"
+#include "drivers/mcu_init.h"
 #include "drivers/io.h"
 #include <stdio.h>
 #include <builtins.h>
@@ -17,27 +18,8 @@
 
 #define _XTAL_FREQ 16000000
 
-/*
-    TODO: Move to test file
-    static void test_blink_led()
-{
-    const io_config led_config = { .select = IO_SELECT_GPIO,
-                                   .dir = IO_DIR_OUTPUT,
-                                   .resistor = IO_RESISTOR_DISABLED,
-                                   .out = IO_OUT_LOW };
-
-    io_configure(IO_TEST_LED, &led_config);
-    io_out_e out = IO_OUT_LOW;
-
-    while (1) {
-        out = (out == IO_OUT_LOW) ? IO_OUT_HIGH : IO_OUT_LOW;
-        io_set_out(IO_TEST_LED, out);
-        __delay_ms(1000);
-    }
-}
-*/
-
 int main()
 {
+    mcu_init();
     return 0;
 }

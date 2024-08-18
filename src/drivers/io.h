@@ -49,7 +49,7 @@ typedef enum
     IO_40,
     IO_41,
     IO_42,
-} generic_io_e;
+} io_generic_e;
 
 // Pin definition
 typedef enum
@@ -62,7 +62,7 @@ typedef enum
     IO_UART_TXD = IO_27,
     IO_I2C_SCL = IO_23,
     IO_I2C_SDA = IO_24,
-    IO_IR_REMOTE = IO_11,
+    IO_IR_REMOTE = IO_12,
     IO_RANGESENSOR_FRONT_INT = IO_10,
     IO_XSHUT_FRONT_LEFT = IO_13,
     IO_XSHUT_FRONT = IO_34,
@@ -76,18 +76,18 @@ typedef enum
     IO_TEST_LED = IO_11,
     PWM_MOTORS_LEFT = IO_21,
     PWM_MOTORS_RIGHT = IO_21, // Same pwm signal with the other mother (tank drive principle)
-    UNUSED_1 = IO_04,
-    UNUSED_2 = IO_05,
-    UNUSED_3 = IO_14,
-    UNUSED_4 = IO_15,
-    UNUSED_5 = IO_16,
-    UNUSED_6 = IO_17,
-    UNUSED_7 = IO_20,
-    UNUSED_8 = IO_22,
-    UNUSED_9 = IO_25,
-    UNUSED_10 = IO_40,
-    UNUSED_11 = IO_41,
-    UNUSED_12 = IO_42
+    UNUSED_04 = IO_04,
+    UNUSED_05 = IO_05,
+    UNUSED_14 = IO_14,
+    UNUSED_15 = IO_15,
+    UNUSED_16 = IO_16,
+    UNUSED_17 = IO_17,
+    UNUSED_20 = IO_20,
+    UNUSED_22 = IO_22,
+    UNUSED_25 = IO_25,
+    UNUSED_40 = IO_40,
+    UNUSED_41 = IO_41,
+    UNUSED_42 = IO_42
 } io_e;
 
 // Pin Configuration
@@ -135,9 +135,10 @@ typedef struct io_config
 // TODO: functions
 void io_set_select(io_e io, io_select_e select);
 void io_set_direction(io_e io, io_dir_e direction);
-io_in_e io_get_input(io_e io);
+io_in_e io_get_gpio_input(io_e io);
 void io_set_resistor(io_e io, io_resistor_e resistor);
 void io_set_out(io_e io, io_out_e out);
 void io_configure(io_e io, const io_config *config);
+void io_init(void);
 
 #endif
