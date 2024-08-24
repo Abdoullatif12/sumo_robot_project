@@ -31,9 +31,12 @@ FORMAT = clang-format-12
 # Files
 TARGET = $(BIN_DIR)/sumobot
 
-SOURCE_FILES_WITH_HEADERS = \
-		src/drivers/io.c	\
-		src/drivers/mcu_init.c
+SOURCE_FILES_WITH_HEADERS = 				\
+		src/drivers/io.c					\
+		src/drivers/mcu_init.c				\
+		src/drivers/led.c					\
+		src/common/assert_handler.c			
+
 
 HEADERS = $(SOURCE_FILES_WITH_HEADERS:.c=.h) \
 
@@ -52,7 +55,7 @@ OBJECT = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 # Flags
 MCU = pic16f877a
 WFLAGS = -mwarn=3 -wall
-CFLAGS = -mcpu=$(MCU) $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS)) -O0 -std=$(C_STANDARD)
+CFLAGS = -mcpu=$(MCU) $(WFLAGS)  $(addprefix -I, $(INCLUDE_DIRS)) -O0 -std=$(C_STANDARD)
 LDFLAGS = -mcpu=$(MCU) $(addprefix -L, $(LIB_DIRS))
 
 # Build
@@ -79,7 +82,8 @@ flash:
 	./ipecmd.sh -T$(PROGRAMMER) -P$(TARGET_MCU) -M -F$(PROJECT_DIR)/$(TARGET).hex"
 
 cppcheck:
-	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 --inline-suppr	\
+	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 --inline-suppr \
+	--suppress=unusedFunction	\
 	-I $(INCLUDE_DIRS) $(SOURCES)	\
 	-i external/printf
 
