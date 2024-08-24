@@ -2,6 +2,9 @@
 #include "../common/defines.h"
 //#include <xc.h>
 #include <proc/pic16f877a.h>
+#include <assert.h>
+
+_Static_assert(sizeof(io_generic_e) == 2, "Unexpected size of io_generic_e");
 
 #define IO_PORT_CNT (5u)
 #define IO_PIN_CNT_PER_PORT (8u)
@@ -105,6 +108,9 @@ void io_set_select(io_e io, io_select_e select)
     switch (select) {
     case IO_SELECT_GPIO:
         *port_dir_regs[port] |= pin;
+        break;
+    case IO_SELECT_ANALOG:
+        *port_dir_regs[port] |= pin;
 
         // Special case for pins that support analog inputs
         if (port == 0 || port == 4) {
@@ -114,6 +120,22 @@ void io_set_select(io_e io, io_select_e select)
     default:
         break;
     }
+}
+
+io_select_e io_get_select(io_e io)
+{
+    uint8_t port = io_port(io);
+    // uint8_t pin = io_pin_bit(io);
+
+    io_select_e select;
+
+    if ((port == 0 || port == 4) && (ADCON1 == 0x6)) {
+        select = IO_SELECT_ANALOG;
+    } else {
+        select = IO_SELECT_GPIO;
+    }
+
+    return select;
 }
 
 /* // cppcheck-suppress unusedFunction */
@@ -182,6 +204,24 @@ void io_configure(io_e io, const io_config *config)
     io_set_direction(io, config->dir);
     io_set_out(io, config->out);
     io_set_resistor(io, config->resistor);
+}
+
+void io_get_current_config(io_e io, io_config *current_config)
+{
+    uint8_t port = io_port(io);
+    uint8_t pin = io_pin_bit(io);
+
+    current_config->select = io_get_select(io);
+    current_config->dir = (io_dir_e)(*port_dir_regs[port] & pin);
+    current_config->resistor = IO_RESISTOR_DISABLED;
+    current_config->out = (io_out_e)(*port_in_out_regs[port] & pin);
+}
+
+bool io_compare_config(io_config config1, io_config config2)
+{
+
+    return (config1.select == config2.select) && (config1.dir == config2.dir)
+        && (config1.resistor == config2.resistor) && (config1.out == config2.out);
 }
 
 void io_init(void)

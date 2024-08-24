@@ -1,6 +1,8 @@
 #include "common/defines.h"
+#include "common/assert_handler.h"
 #include "drivers/mcu_init.h"
 #include "drivers/io.h"
+#include "drivers/led.h"
 #include <stdio.h>
 #include <builtins.h>
 

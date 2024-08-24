@@ -7,7 +7,6 @@
 
 /* 
  * Test the pin as gpio output and blink an LED */
-// cppcheck-suppress unusedFunction
 static void test_blink_led()
 {
     const io_config led_config = { .select = IO_SELECT_GPIO,
@@ -25,8 +24,19 @@ static void test_blink_led()
     }
 }
 
+/* static void test_blink_led()
+{
+    led_init();
+    led_state_e state = LED_STATE_OFF;
+
+    while (1) {
+        state = (state == LED_STATE_OFF) ? LED_STATE_ON : LED_STATE_OFF;
+        led_set(TEST_LED, state);
+        __delay_ms(500);
+    }
+} */
+
 /* Test a pin as gpio input by turning an LED on, when logic HIGH is applied on the pin */
-// cppcheck-suppress unusedFunction
 static void test_inputs()
 {
     const io_config led_config = { .select = IO_SELECT_GPIO,
@@ -55,7 +65,7 @@ static void test_inputs()
 /*
  * Configure all pins as output and toggle them in a loop.
  * Then verify with a logic analyzer. */
-// cppcheck-suppress unusedFunction
+
 static void test_io_pins_output(void)
 {
 
@@ -81,7 +91,7 @@ static void test_io_pins_output(void)
 /*
  * Configure all pins (except LED pin) as input and apply logic HIGH to them to
  * turn on an LED */
-// cppcheck-suppress unusedFunction
+
 static void test_io_pins_input(void)
 {   
     // led configuration struct
@@ -138,3 +148,10 @@ static void test_io_pins_input(void)
     }
     
 }
+
+static void test_assert()
+{
+    ASSERT(0);
+}
+
+

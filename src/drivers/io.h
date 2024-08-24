@@ -94,7 +94,7 @@ typedef enum
 typedef enum
 {
     IO_SELECT_GPIO,
-    IO_SELECT_ALT
+    IO_SELECT_ANALOG
 } io_select_e;
 
 // Pin direction settings
@@ -123,7 +123,6 @@ typedef enum
     IO_RESISTOR_DISABLED
 } io_resistor_e;
 
-// TODO: structs
 typedef struct io_config
 {
     io_select_e select;
@@ -134,11 +133,14 @@ typedef struct io_config
 
 // TODO: functions
 void io_set_select(io_e io, io_select_e select);
+io_select_e io_get_select(io_e io);
 void io_set_direction(io_e io, io_dir_e direction);
 io_in_e io_get_gpio_input(io_e io);
 void io_set_resistor(io_e io, io_resistor_e resistor);
 void io_set_out(io_e io, io_out_e out);
 void io_configure(io_e io, const io_config *config);
+void io_get_current_config(io_e io, io_config *current_config);
+bool io_compare_config(io_config config1, io_config config2);
 void io_init(void);
 
 #endif
